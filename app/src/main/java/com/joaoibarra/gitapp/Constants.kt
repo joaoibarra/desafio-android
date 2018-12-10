@@ -1,7 +1,7 @@
 package com.joaoibarra.gitapp
 
-class Constants {
-    companion object {
-        const val API = "https://api.github.com/"
-    }
+object Constants {
+    const val API = "https://api.github.com/"
+    const val REPO = "REPO"
+    const val USER = "USER"
 }
