@@ -8,24 +8,26 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class GitApiService {
-    companion object GitApiServiceInstance {
-        fun create(): GitApi {
-            val builder = OkHttpClient.Builder()
-            val gsonBuilder = GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                    .create()
+object GitApiService {
 
-            val retrofit = Retrofit.Builder()
-                    .addCallAdapterFactory(
-                            RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(
-                            GsonConverterFactory.create(gsonBuilder))
-                    .baseUrl(Constants.API)
-                    .client(builder.build())
-                    .build()
-            return retrofit.create(GitApi::class.java)
-        }
+    private val retrofit: Retrofit by lazy {
+        val gsonBuilder = GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create()
+
+        Retrofit.Builder()
+                .addCallAdapterFactory(
+                        RxJava2CallAdapterFactory.create())
+                .addConverterFactory(
+                        GsonConverterFactory.create(gsonBuilder))
+                .baseUrl(Constants.API)
+                .client(builder.build())
+                .build()
+    }
+
+    private val builder = OkHttpClient.Builder()
+
+    val gitApi: GitApi by lazy {
+        retrofit.create(GitApi::class.java)
     }
 }
