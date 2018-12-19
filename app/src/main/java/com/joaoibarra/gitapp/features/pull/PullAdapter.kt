@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.joaoibarra.gitapp.R
-import com.joaoibarra.gitapp.api.model.Pull
 import com.joaoibarra.gitapp.extensions.formatDate
 import com.joaoibarra.gitapp.extensions.loadCircle
+import com.joaoibarra.gitapp.model.Pull
 import kotlinx.android.synthetic.main.item_pull.view.*
 
 class PullAdapter(val listener: (Pull?) -> Unit) : PagedListAdapter<Pull, PullAdapter.PullViewHolder>(itemDiff) {
@@ -23,20 +23,20 @@ class PullAdapter(val listener: (Pull?) -> Unit) : PagedListAdapter<Pull, PullAd
     }
 
     class PullViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         fun bind(pull: Pull?, listener: (Pull?) -> Unit) = with(itemView) {
-            tvName.text = pull?.title
-            tvDescription.text = pull?.body
-            tvOwnerLogin.text = pull?.user?.login
-            ivAvatar.loadCircle(pull?.user?.avatarUrl)
-            tvDate.formatDate(pull?.createdAt)
-            setOnClickListener { listener(pull) }
+            pull?.let {
+                tvName.text = pull.title
+                tvDescription.text = pull.body
+                tvOwnerLogin.text = pull.user.login
+                ivAvatar.loadCircle(pull.user.avatarUrl)
+                tvDate.formatDate(pull.createdAt)
+                setOnClickListener { listener(pull) }
+            }
         }
-
     }
 
     companion object {
-        val itemDiff = object: DiffUtil.ItemCallback<Pull>() {
+        val itemDiff = object : DiffUtil.ItemCallback<Pull>() {
 
             override fun areItemsTheSame(old: Pull, new: Pull): Boolean {
                 return old.id == new.id
@@ -45,7 +45,6 @@ class PullAdapter(val listener: (Pull?) -> Unit) : PagedListAdapter<Pull, PullAd
             override fun areContentsTheSame(old: Pull, new: Pull): Boolean {
                 return old == new
             }
-
         }
     }
 }
