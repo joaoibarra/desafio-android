@@ -2,7 +2,7 @@ package com.joaoibarra.gitapp.model
 
 import com.google.gson.annotations.SerializedName
 
-data class License (
+data class License(
     @SerializedName("key") val key: String,
     @SerializedName("name") val name: String,
     @SerializedName("spdx_id") val spdxId: String,

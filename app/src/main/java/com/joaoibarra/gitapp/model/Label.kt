@@ -2,7 +2,7 @@ package com.joaoibarra.gitapp.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Label (
+data class Label(
     @SerializedName("id") val id: Int,
     @SerializedName("node_id") val nodeId: String,
     @SerializedName("url") val url: String,

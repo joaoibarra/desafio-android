@@ -3,6 +3,7 @@ package com.joaoibarra.gitapp.extensions
 import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.joaoibarra.gitapp.GlideApp
 
 fun ImageView.loadCircle(url: String?) {

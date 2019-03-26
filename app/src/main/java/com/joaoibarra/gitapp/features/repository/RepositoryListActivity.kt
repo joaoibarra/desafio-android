@@ -63,7 +63,6 @@ class RepositoryListActivity : AppCompatActivity() {
                         { list ->
                             adapter.submitList(list)
                             hideProgressBar()
-                            Log.v("OnLoad", "Talquei")
                         },
                         { e ->
                             Log.e("Error OnLoad", "Error", e)

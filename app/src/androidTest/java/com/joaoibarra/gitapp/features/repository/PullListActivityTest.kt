@@ -29,14 +29,17 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class PullListActivityTest {
+    val user = "USER"
+    val repo = "REPO"
+
     @get:Rule
     val pullsActivityRule = IntentsTestRule<PullListActivity>(PullListActivity::class.java, false, false)
 
     @Before
     fun setUp() {
         val intent = Intent()
-        intent.putExtra(Constants.USER, Constants.USERTEST)
-        intent.putExtra(Constants.REPO, Constants.REPOTEST)
+        intent.putExtra(user, Constants.USERTEST)
+        intent.putExtra(repo, Constants.REPOTEST)
         pullsActivityRule.launchActivity(intent)
     }
 
@@ -50,21 +53,36 @@ class PullListActivityTest {
                 .perform(click())
                 .check(ViewAssertions.matches(isDisplayed()))
     }
-//
+
 //    @Test
-//    fun checkRecyclerView_whenClicked_shouldOpenBrowser() {
+//    fun checkRecyclerView_whenClicked_shouldTryOpenBrowser() {
+//        Espresso.onView(withId(R.id.recyclerPulls)).check(ViewAssertions.matches(isDisplayed()))
+//
 //        // TODO isso é péssimo
 //        Thread.sleep(3000)
 //
 //        Espresso.onView(withId(R.id.recyclerPulls))
-//                .check(ViewAssertions.matches(isDisplayed()))
 //                .perform(
 //                        RecyclerViewActions.actionOnItem<RepositoryAdapter.ItemViewHolder>(
 //                                hasDescendant(withText(Constants.PULLTITLE)), click()))
 //
 //        val expectedIntent = AllOf.allOf(hasAction(Intent.ACTION_VIEW), hasData(Constants.URLTEST))
 //        intending(expectedIntent).respondWith(Instrumentation.ActivityResult(0, null))
-//
-//        intended(expectedIntent)
 //    }
+
+    @Test
+    fun whenClickOnItem_shouldOpenBrowser() {
+        // TODO isso é péssimo
+        Thread.sleep(3000)
+
+        Espresso.onView(withId(R.id.recyclerPulls))
+                .perform(
+                        RecyclerViewActions.actionOnItem<RepositoryAdapter.ItemViewHolder>(
+                                hasDescendant(withText(Constants.PULLTITLE)), click()))
+
+        val expectedIntent = AllOf.allOf(hasAction(Intent.ACTION_VIEW), hasData(Constants.URLTEST))
+        intending(expectedIntent).respondWith(Instrumentation.ActivityResult(0, null))
+
+        intended(expectedIntent)
+    }
 }
